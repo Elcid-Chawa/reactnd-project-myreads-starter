@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Book from './Books';
+import PropTypes from 'prop-types';
 
 class AllBooks extends Component {
 
@@ -45,6 +46,13 @@ class AllBooks extends Component {
         )
     }
 
+}
+
+AllBooks.propTypes = {
+  currentlyReading: PropTypes.array,
+  wantToRead: PropTypes.array,
+  readBooks: PropTypes.array,
+  moveBook: PropTypes.func
 }
 
 export default AllBooks;

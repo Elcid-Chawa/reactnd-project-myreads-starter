@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class Selector extends Component {
     state = {
@@ -32,6 +33,12 @@ class Selector extends Component {
             </div>
         )
     }
+}
+
+Selector.propTypes = {
+    book: PropTypes.object,
+    moveBook: PropTypes.func,
+    shelf: PropTypes.string
 }
 
 export default Selector;

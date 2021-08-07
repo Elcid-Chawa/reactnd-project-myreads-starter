@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Selector from './Selector';
+import PropTypes from 'prop-types';
 
 class Book extends Component {
     render(){
@@ -21,6 +22,12 @@ class Book extends Component {
             </ol>
         )
     }
+}
+
+Book.propTypes = {
+    books: PropTypes.array,
+    moveBook: PropTypes.func,
+    shelf: PropTypes.string
 }
 
 export default Book;

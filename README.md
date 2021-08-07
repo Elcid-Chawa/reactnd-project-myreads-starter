@@ -4,12 +4,21 @@ This is the starter template for the final assessment project for Udacity's Reac
 
 Of course, you are free to start this project from scratch if you wish! Just be sure to use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap the project.
 
-## TL;DR
+## Project Overview
+This project shows a Book shelf with different layers to represent the `Currently Reading Books`, `Want to Read Books` and `Read books`. The books can be moved from shelf to shelf. We also added a Search page to the app where you can search for a and move it to any shelf. If a book is moved to `none` category, the book is deleted from the available shelves. In this fproject I used the provided file [`BooksAPI.js`](src/BooksAPI.js), which is used to provision the books we used through the application. 
+
+## Project Dependencies and set up
 
 To get started developing right away:
 
+* Ensure nodejs and yarn are installed on your system
+* install `react js` on your system with `npm install react react-dom --save`
+* Clone the project from the repository `https://github.com/Elcid-Chawa/reactnd-project-myreads-starter.git` 
+* navigate to the project root directory
 * install all project dependencies with `npm install`
+* Add PropTypes with `yarn add prop-types` or `npm install --save prop-types`
 * start the development server with `npm start`
+* The app will be opened on your browser automatically.
 
 ## What You're Getting
 ```bash
@@ -25,6 +34,10 @@ To get started developing right away:
     ├── App.js # This is the root of your app. Contains static HTML right now.
     ├── App.test.js # Used for testing. Provided with Create React App. Testing is encouraged, but not required.
     ├── BooksAPI.js # A JavaScript API for the provided Udacity backend. Instructions for the methods are below.
+    ├── AllBooks.js # A Javascript file that renders the main display with diffferent book shelves.
+    ├── Books.js # A Javascript file that renders a list of books.
+    ├── Selector.js # A Javascript file that renders the view for the drop down list to select the book category.
+    ├── Search.js # A Javascript file that renders the search page.
     ├── icons # Helpful images for your app. Use at your discretion.
     │   ├── add.svg
     │   ├── arrow-back.svg

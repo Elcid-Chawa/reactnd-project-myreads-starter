@@ -118,6 +118,15 @@ button:active {
   outline: none;
 }
 
+.showing-books{
+  text-align: center;
+  padding: 80px 10px 20px;
+}
+
+.invalid-query{
+  color: #f00;
+}
+
 .search-books-results {
   padding: 80px 10px 20px;
 }

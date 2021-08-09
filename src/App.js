@@ -94,7 +94,12 @@ class BooksApp extends React.Component {
             </div>
           )}  />
           <Route render={() => (
-            <div>Page Not Found</div>
+            <div>   Page Not Found
+              <br />
+              <span> 
+                <Link to="/"><button className="close-err">Go back Home</button></Link>
+              </span> 
+            </div>
           )}/>
       </Switch>  
       </div>

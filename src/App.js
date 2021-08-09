@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, Route } from 'react-router-dom'
+import { Link, Route, Switch } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import Search from './Search'
@@ -19,7 +19,6 @@ class BooksApp extends React.Component {
     currentlyReading: [],
     wantToRead: [],
     readBooks: []
-
   }
 
   componentDidMount() {
@@ -36,108 +35,68 @@ class BooksApp extends React.Component {
   }
 
 
-  filterShelf = (book) => {
+  filterShelf = (res, book, prevShelf, shelfState) => {
 
-    if(this.state.currentlyReading.includes(book)){
-      this.setState((currentState) => ({
-        currentlyReading: currentState.currentlyReading.filter((b) => {
-          return b.id !== book.id
-        })
-      }))
+    if (res.includes(book.id) && (prevShelf === book.shelf)){
+      return shelfState
     }
-
-    if(this.state.wantToRead.includes(book)){
-      this.setState((currentState) => ({
-        wantToRead: currentState.wantToRead.filter((b) => {
-          return b.id !== book.id
-        })
-      }))
+    if(res.includes(book.id) && (prevShelf !== book.shelf)){
+     
+      return shelfState.filter(b => {return b.id !== book.id}).concat(book)
     }
-
-    if(this.state.readBooks.includes(book)){
-      this.setState((currentState) => ({
-        readBooks: currentState.readBooks.filter((b) => {
-          return b.id !== book.id
-        })
-      }))
-    }
+    
+    return shelfState.filter(b => {return b.id !== book.id})
   }
 
   
-  moveBook = (event, book, shelf) => {
-
+  moveBook = (changeShelf, book) => {
     
-    if(event.target.value === "currentlyReading"){
-      
-      if((shelf !== event.target.value ) && !this.state.currentlyReading.includes(book)){
-        this.filterShelf(book)
-        this.setState((previousState) => ({
-          currentlyReading: [...previousState.currentlyReading, book]
-        }))  
-      } 
+    // this.filterShelf(book)
+    BooksAPI.update(book, changeShelf)
+      .then(res => {
+        const prevShelf = book.shelf;
+        book.shelf = changeShelf;
 
-      BooksAPI.update(book, event.target.value);
-
-    }
-
-    if(event.target.value === "wantToRead"){
-      
-      if((shelf !== event.target.value ) && !this.state.wantToRead.includes(book)){
-        this.filterShelf(book)
-        this.setState((previousState) => ({
-          wantToRead: [...previousState.wantToRead, book]
-        }))  
-      } 
-      BooksAPI.update(book, event.target.value);
-
-    }
-    
-    if(event.target.value === "read" ){
-      if((shelf !== event.target.value) && !this.state.readBooks.includes(book)){
-        this.filterShelf(book)
-        this.setState((previousState) => ({
-          readBooks: [...previousState.readBooks, book]
+        this.setState((currentState) => ({
+          currentlyReading: this.filterShelf(res.currentlyReading, book, prevShelf, currentState.currentlyReading),
+          wantToRead: this.filterShelf(res.wantToRead, book, prevShelf, currentState.wantToRead),
+          readBooks: this.filterShelf(res.read, book, prevShelf, currentState.readBooks)
         }))
-        console.log(" Move to Read Shelf")
-      }
 
-      BooksAPI.update(book, event.target.value);
-
-    }
-
-    if(event.target.value === "none"){
-      this.filterShelf(book);
-    }
-
+        console.log(`Book moved to ${changeShelf}`)
+      })
   }
 
   render() {
     return (
       <div className="app">
-        <Route path='/search' render={() => (
-          <div>
-            <Search 
-              allBooks={ this.state.allBooks } 
-              moveBook={this.moveBook} 
-            />
-          </div>
-          
-        )} />
-        <Route exact path='/' render ={() => (
-          <div className="list-books">
-            <AllBooks 
-              allBooks={this.state.allBooks}
-              currentlyReading={this.state.currentlyReading}
-              wantToRead={this.state.wantToRead}
-              readBooks={this.state.readBooks}
-              moveBook={this.moveBook}
-            />
-            <div className="open-search">
-              <Link to="/search"><button >Add a book</button></Link>
+        <Switch>
+          <Route path='/search' render={() => (
+            <div>
+              <Search 
+                moveBook={this.moveBook} 
+              />
             </div>
-          </div>
-        )}  />
-        
+            
+          )} />
+          <Route exact path='/' render ={() => (
+            <div className="list-books">
+              <AllBooks 
+                allBooks={this.state.allBooks}
+                currentlyReading={this.state.currentlyReading}
+                wantToRead={this.state.wantToRead}
+                readBooks={this.state.readBooks}
+                moveBook={this.moveBook}
+              />
+              <div className="open-search">
+                <Link to="/search"><button >Add a book</button></Link>
+              </div>
+            </div>
+          )}  />
+          <Route render={() => (
+            <div>Page Not Found</div>
+          )}/>
+      </Switch>  
       </div>
     )
   }

@@ -2,30 +2,43 @@ import React, { Component } from "react"
 import { Link } from "react-router-dom";
 import Book from "./Books";
 import PropTypes from 'prop-types';
+import * as BooksAPI from './BooksAPI'
 
 
 class Search extends Component {
 
     state = {
-        query: ''
+        query: '',
+        searched: []
     }
 
     updateQuery = (query) => {
         this.setState(() => ({
             query: query
         }))
+
+        if(query){
+          BooksAPI.search(query.trim(), 20)
+          .then(books => {
+            books.length > 0 
+              ? this.setState(() => ({
+                  searched: [...books]
+                }))
+              : this.setState(() => ({
+                searched: []
+              }))
+          });
+        }
     }
 
     render(){
 
-        const { query } = this.state;
-        const { allBooks, moveBook } = this.props;
+        const { query, searched } = this.state;
+        const { moveBook } = this.props;
 
         const showingBooks = query === '' 
             ?  []
-            : allBooks.filter((b) => (
-                b.title.toLowerCase().includes(query.toLowerCase())
-            ))
+            : searched.filter((b) => typeof(b.imageLinks) !== 'undefined' )
 
         return(
             <div className="search-books">
@@ -52,24 +65,24 @@ class Search extends Component {
                   </div>
               </div>
               
-              {showingBooks.length !== allBooks.length && (
+              {showingBooks.length !== searched.length && (
                   <div className="showing-books">
                     {((showingBooks.length === 0) && (query !== '') && (
                         <div className="invalid-query">invalid query.</div>)
                       )}
-                    <span>Now showing {showingBooks.length} of {allBooks.length} books</span>
+                    <span>Now showing {showingBooks.length} of {searched.length} books</span>
                   </div>
                 )}
 
-                {showingBooks.length === allBooks.length && (
+                {showingBooks.length === searched.length && (
                   <div className="showing-books">
-                    <span>Now all {showingBooks.length} of {allBooks.length} books</span>
+                    <span>Now all {showingBooks.length} of {searched.length} books</span>
                   </div>
                 )}
 
               <div className="search-books-results">
                 <ol className="books-grid"></ol>
-                <Book books={showingBooks} moveBook={moveBook} shelf="none"/>
+                <Book books={showingBooks} moveBook={moveBook}  />
               </div>
 
           </div>
@@ -79,8 +92,7 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  allBooks: PropTypes.array,
-  moveBook: PropTypes.func
+  moveBook: PropTypes.func.isRequired
 }
 
 export default Search;

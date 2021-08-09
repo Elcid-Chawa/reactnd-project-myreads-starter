@@ -21,21 +21,21 @@ class AllBooks extends Component {
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Currently Reading</h2>
                 <div className="bookshelf-books">
-                  <Book books={currentlyReading} moveBook={moveBook} shelf="currentlyReading" />
+                  <Book books={currentlyReading} moveBook={moveBook} />
                 </div>
               </div>
 
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Want to Read</h2>
                 <div className="bookshelf-books">
-                  <Book books={wantToRead} moveBook={moveBook} shelf="wantToRead" />
+                  <Book books={wantToRead} moveBook={moveBook} />
                 </div>
               </div>
 
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Read</h2>
                 <div className="bookshelf-books">
-                  <Book books={readBooks}  moveBook={moveBook} shelf="read" />
+                  <Book books={readBooks}  moveBook={moveBook} />
                 </div>
               </div>
 
@@ -49,10 +49,10 @@ class AllBooks extends Component {
 }
 
 AllBooks.propTypes = {
-  currentlyReading: PropTypes.array,
-  wantToRead: PropTypes.array,
-  readBooks: PropTypes.array,
-  moveBook: PropTypes.func
+  currentlyReading: PropTypes.array.isRequired,
+  wantToRead: PropTypes.array.isRequired,
+  readBooks: PropTypes.array.isRequired,
+  moveBook: PropTypes.func.isRequired
 }
 
 export default AllBooks;

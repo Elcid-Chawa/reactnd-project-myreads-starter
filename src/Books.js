@@ -1,33 +1,33 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Selector from './Selector';
 import PropTypes from 'prop-types';
 
-class Book extends Component {
-    render(){
-        const { books, moveBook, shelf } = this.props;
-        return (
-            <ol className="books-grid">
-                { books.map( (book) => ( 
-                    <li key={book.id}>
-                        <div className="book">
-                            <div className="book-top">
-                                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
-                                <Selector book={book} moveBook={moveBook} shelf={shelf} />
+function Book (props){
+
+    return (
+        <ol className="books-grid">
+            { props.books.map( (book) => (
+                 
+                       <li key={book.id}>
+                            <div className="book">
+                                <div className="book-top">
+                                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
+                                        <Selector book={book} books={props.books} moveBook={props.moveBook} currentShelf={book.shelf} />
+                                    </div>
+                                <div className="book-title">{book.title}</div>
+                                <div className="book-authors">{book.authors}</div>
                             </div>
-                            <div className="book-title">{book.title}</div>
-                            <div className="book-authors">{book.authors[0]}</div>
-                        </div>
-                    </li>
-                ))}
-            </ol>
-        )
-    }
+                        </li>
+                    
+                ))
+            }
+        </ol>
+    );
 }
 
 Book.propTypes = {
-    books: PropTypes.array,
-    moveBook: PropTypes.func,
-    shelf: PropTypes.string
+    books: PropTypes.array.isRequired,
+    moveBook: PropTypes.func.isRequired
 }
 
 export default Book;

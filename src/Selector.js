@@ -21,7 +21,7 @@ class Selector extends Component {
     };
 
 
-    updateQuery = (changeShelf, book, currentShelf) => {
+    updateQuery = (changeShelf, book) => {
             
             this.props.moveBook(changeShelf, book);
             this.setState(() => ({

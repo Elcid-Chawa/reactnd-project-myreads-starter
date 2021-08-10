@@ -5,7 +5,7 @@ class Selector extends Component {
 
     static propTypes = {
         book: PropTypes.object.isRequired,
-        books: PropTypes.array.isRequired,
+        books: PropTypes.array,
         moveBook: PropTypes.func.isRequired,
     };
 
@@ -30,8 +30,8 @@ class Selector extends Component {
         }
 
     render() {
-        const { book, books, currentShelf } = this.props;
-        const { optionsState, options } = this.state;
+        const { book, currentShelf } = this.props;
+        const { options } = this.state;
 
         
 

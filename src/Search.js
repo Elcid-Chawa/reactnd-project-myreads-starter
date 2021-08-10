@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom";
-import Book from "./Books";
 import PropTypes from 'prop-types';
 import * as BooksAPI from './BooksAPI'
+import Selector from "./Selector";
 
 
 class Search extends Component {
@@ -39,6 +39,8 @@ class Search extends Component {
         const showingBooks = query === '' 
             ?  []
             : searched.filter((b) => typeof(b.imageLinks) !== 'undefined' )
+
+        let currentShelf = 'none';
 
         return(
             <div className="search-books">
@@ -81,8 +83,39 @@ class Search extends Component {
                 )}
 
               <div className="search-books-results">
-                <ol className="books-grid"></ol>
-                <Book books={showingBooks} moveBook={moveBook}  />
+
+                <ol className="books-grid">
+                    { showingBooks.map( (book) => book.shelf === undefined || 'none' 
+                        ? (
+                        
+                              <li key={book.id}>
+                                    <div className="book">
+                                        <div className="book-top">
+                                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
+                                                <Selector book={book} books={showingBooks} moveBook={moveBook} currentShelf={currentShelf} />
+                                            </div>
+                                        <div className="book-title">{book.title}</div>
+                                        <div className="book-authors">{book.authors}</div>
+                                    </div>
+                                </li>
+                            
+                          ) : (
+                                <li key={book.id}>
+                                    <div className="book">
+                                        <div className="book-top">
+                                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
+                                                <Selector book={book} books={showingBooks} moveBook={moveBook} currentShelf={book.shelf} />
+                                            </div>
+                                        <div className="book-title">{book.title}</div>
+                                        <div className="book-authors">{book.authors}</div>
+                                    </div>
+                                </li>
+                              ) 
+                      )
+                        
+                    }
+                </ol>
+
               </div>
 
           </div>

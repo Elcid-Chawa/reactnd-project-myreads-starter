@@ -21,21 +21,21 @@ class AllBooks extends Component {
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Currently Reading</h2>
                 <div className="bookshelf-books">
-                  <Book books={currentlyReading} moveBook={moveBook} />
+                  <Book books={currentlyReading} moveBook={moveBook} currentShelf="currentlyReading" />
                 </div>
               </div>
 
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Want to Read</h2>
                 <div className="bookshelf-books">
-                  <Book books={wantToRead} moveBook={moveBook} />
+                  <Book books={wantToRead} moveBook={moveBook} currentShelf="wantToRead" />
                 </div>
               </div>
 
               <div className="bookshelf">
                 <h2 className="bookshelf-title">Read</h2>
                 <div className="bookshelf-books">
-                  <Book books={readBooks}  moveBook={moveBook} />
+                  <Book books={readBooks}  moveBook={moveBook} currentShelf="read"/>
                 </div>
               </div>
 

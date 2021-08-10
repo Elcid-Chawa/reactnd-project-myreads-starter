@@ -21,7 +21,7 @@ class Selector extends Component {
     };
 
 
-    updateQuery = (changeShelf, book) => {
+    updateQuery = (changeShelf, book, currentShelf) => {
             
             this.props.moveBook(changeShelf, book);
             this.setState(() => ({
@@ -30,15 +30,21 @@ class Selector extends Component {
         }
 
     render() {
-        const { book, currentShelf } = this.props;
+        const { book, books, currentShelf } = this.props;
         const { options } = this.state;
 
-        
+        let shelf = currentShelf;
+        for(let b of books){
+            if(book.id === b.id){
+                shelf = b.shelf
+                break
+            }
+        }
 
         return (
             <div className="book-shelf-changer">
                 <select 
-                    defaultValue={currentShelf}
+                    defaultValue={shelf}
                     onChange={(event) => this.updateQuery(event.target.value, book)}                    
                 >
                     {options.map( (opt, index) => (

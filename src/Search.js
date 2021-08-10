@@ -34,13 +34,14 @@ class Search extends Component {
     render(){
 
         const { query, searched } = this.state;
-        const { moveBook } = this.props;
+        const { moveBook, books } = this.props;
 
         const showingBooks = query === '' 
             ?  []
             : searched.filter((b) => typeof(b.imageLinks) !== 'undefined' )
 
         let currentShelf = 'none';
+
 
         return(
             <div className="search-books">
@@ -92,7 +93,7 @@ class Search extends Component {
                                     <div className="book">
                                         <div className="book-top">
                                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
-                                                <Selector book={book} books={showingBooks} moveBook={moveBook} currentShelf={currentShelf} />
+                                                <Selector book={book} books={books} moveBook={moveBook} currentShelf={currentShelf} />
                                             </div>
                                         <div className="book-title">{book.title}</div>
                                         <div className="book-authors">{book.authors}</div>
@@ -104,7 +105,7 @@ class Search extends Component {
                                     <div className="book">
                                         <div className="book-top">
                                             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
-                                                <Selector book={book} books={showingBooks} moveBook={moveBook} currentShelf={book.shelf} />
+                                                <Selector book={book} books={books} moveBook={moveBook} currentShelf={book.shelf} />
                                             </div>
                                         <div className="book-title">{book.title}</div>
                                         <div className="book-authors">{book.authors}</div>
@@ -125,7 +126,8 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  moveBook: PropTypes.func.isRequired
+  moveBook: PropTypes.func.isRequired,
+  books: PropTypes.array
 }
 
 export default Search;

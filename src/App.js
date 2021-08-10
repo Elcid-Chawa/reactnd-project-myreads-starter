@@ -75,6 +75,7 @@ class BooksApp extends React.Component {
             <div>
               <Search 
                 moveBook={this.moveBook} 
+                books = {[...this.state.currentlyReading, ...this.state.wantToRead, ...this.state.readBooks]}
               />
             </div>
             
